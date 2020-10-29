@@ -2,10 +2,12 @@ import Axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Formulario from './components/Formulario';
+import ListadoImagenes from './components/ListadoImagenes';
 
 function App() {
 
   const [ search, saveSearch ] = useState('');
+  const [ images, saveImages ] = useState([]);
 
   useEffect(() => {
     
@@ -19,7 +21,7 @@ function App() {
     
     const answer = await axios.get(url);
 
-    saveSearch(answer.data.hits);
+    saveImages(answer.data.hits);
     }
     consultAPI();
   }, [search]);
@@ -31,6 +33,12 @@ function App() {
         <p className="lead text-center" >Buscador de Imagenes</p>
         <Formulario 
           saveSearch={saveSearch}
+        />
+      </div>
+
+      <div className=" row justify-content-center">
+        <ListadoImagenes 
+          images={images}
         />
       </div>
     </div>
