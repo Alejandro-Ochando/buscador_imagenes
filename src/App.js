@@ -8,6 +8,9 @@ function App() {
 
   const [ search, saveSearch ] = useState('');
   const [ images, saveImages ] = useState([]);
+  //Paginador
+  const [ actualPage, saveActualPage ] = useState(1);
+  const [ totalPages, saveTotalPages ] = useState(1);
 
   useEffect(() => {
     
@@ -22,6 +25,10 @@ function App() {
     const answer = await axios.get(url);
 
     saveImages(answer.data.hits);
+   
+    //Calculo del Total de paginas
+    const calculateTotalPages =Math.ceil(answer.data.totalHits / imagesPerPage);
+    saveTotalPages(calculateTotalPages);
     }
     consultAPI();
   }, [search]);
