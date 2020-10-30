@@ -36,7 +36,7 @@ const Formulario = ({ saveSearch }) => {
                     <input 
                         type="submit"
                         className="btn btn-lg btn-danger btn-block"
-                        vale="Buscar"
+                        value="Buscar"
                     />
                 </div>   
             </div>
