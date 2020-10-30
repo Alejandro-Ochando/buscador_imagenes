@@ -4,7 +4,7 @@ import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Formulario from './components/Formulario';
 import ListadoImagenes from './components/ListadoImagenes';
-import { faForward, faBackward } from '@fortawesome/free-solid-svg-icons'
+import { faForward, faBackward } from '@fortawesome/free-solid-svg-icons';
 
 
 function App() {

@@ -2,7 +2,8 @@ import React from 'react';
 import './Imagenes.css';
 import './Iconos.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart, faEye } from '@fortawesome/free-solid-svg-icons'
+import { faHeart, faEye } from '@fortawesome/free-solid-svg-icons';
+import PropTypes from 'prop-types';
 
 //Iconos
 const like = <FontAwesomeIcon icon={faHeart} />
@@ -32,5 +33,9 @@ const Imagenes = ({ image }) => {
         </div>
      );
 }
- 
+
+Imagenes.propTypes = {
+    image: PropTypes.object.isRequired
+};
+
 export default Imagenes;
