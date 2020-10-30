@@ -7,73 +7,72 @@ import ListadoImagenes from './components/ListadoImagenes';
 import { faForward, faBackward } from '@fortawesome/free-solid-svg-icons'
 
 
-
-
 function App() {
 
   const [ search, saveSearch ] = useState('');
   const [ images, saveImages ] = useState([]);
   //Paginador
-  const [ actualPage, saveActualPage ] = useState(1);
+  const [ currentPage, saveCurrentPage ] = useState(1);
   const [ totalPages, saveTotalPages ] = useState(1);
-
+  //Iconos
   const next = <FontAwesomeIcon icon={faForward} />
   const previous = <FontAwesomeIcon icon={faBackward} />
+
 
   useEffect(() => {
     
     const consultAPI = async() => {
 
-    if(search === '') return;
+      if(search === '') return;
 
-    const imagesPerPage = 30;
-    const key ='18907144-ac5d4537a4499596029ff3be0';
-    const url=`https://pixabay.com/api/?key=${key}&q=${search}&per_page=${imagesPerPage}&page=${actualPage}`;
+      const imagesPerPage = 30;
+      const key ='18907144-ac5d4537a4499596029ff3be0';
+      const url=`https://pixabay.com/api/?key=${key}&q=${search}&per_page=${imagesPerPage}&page=${currentPage}`;
 
-    const answer = await axios.get(url);
+      const answer = await axios.get(url);
 
-    saveImages(answer.data.hits);
-   
-    //Calculo del Total de paginas
-    const calculateTotalPages =Math.ceil(answer.data.totalHits / imagesPerPage);
-    saveTotalPages(calculateTotalPages);
+      saveImages(answer.data.hits);
 
-    //Mover la pantalla hacia arriba
-    const jumbotron = document.querySelector('.jumbotron');
-    jumbotron.scrollIntoView({ behavior: 'smooth'});
-  
+      //Cálculo del Total de paginas
+      const calculateTotalPages =Math.ceil(answer.data.totalHits / imagesPerPage);
+      saveTotalPages(calculateTotalPages);
+
+      //Mover la pantalla hacia arriba
+      const jumbotron = document.querySelector('.jumbotron');
+      jumbotron.scrollIntoView({ behavior: 'smooth'});
+
     }
+
     consultAPI();
-  }, [search, actualPage]);
+  }, [search, currentPage]);
 
   //Delante y Atras del Paginador
   const previousPage = () => {
-    const newActualPage = actualPage - 1;
-    if(newActualPage === 0 ) return;
-    saveActualPage(newActualPage);
+    const newCurrentPage = currentPage - 1;
+    if(newCurrentPage === 0 ) return;
+    saveCurrentPage(newCurrentPage);
   }
 
   const nextPage = () => {
-    const newActualPage = actualPage + 1;
-    if(newActualPage > totalPages ) return;
-    saveActualPage(newActualPage);
+    const newCurrentPage = currentPage + 1;
+    if(newCurrentPage > totalPages ) return;
+    saveCurrentPage(newCurrentPage);
   }
 
 
   return (
     <div className="container">
       <div className="jumbotron">
-        <p className="lead text-center" >Buscador de Imagenes</p>
+        <p className="lead text-center" >Buscador de Imágenes</p>
         <Formulario 
           saveSearch={saveSearch}
         />
       </div>
-
       <div className=" row justify-content-center">
         <ListadoImagenes 
           images={images}
         />
-        { (actualPage === 1) ? null : (
+        { (currentPage === 1) ? null : (
           <button
             type="button"
             className="btn btn-info mr-1"
@@ -82,17 +81,15 @@ function App() {
             {previous}  Anterior
           </button>
         )}
-        
-        { (actualPage === totalPages) ? null : (
+        { (currentPage === totalPages) ? null : (
           <button
-          type="button"
-          className="btn btn-info"
-          onClick={nextPage}
-        >
+            type="button"
+            className="btn btn-info"
+            onClick={nextPage}
+          >
           Siguiente  {next}
-        </button>
+          </button>
         )}
-          
       </div>
     </div>
   ); 
